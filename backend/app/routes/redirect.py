@@ -29,12 +29,26 @@ async def redirect_to_url(short_code: str, request: Request, db: Session = Depen
     ip = request.client.host
     visitor_id = hashlib.md5(f"{ip}{user_agent}".encode()).hexdigest()
     
-    # Mocking country/device/os for demo purposes
-    # In production, use GeoIP2 or similar
+    import urllib.request
+    import json
+    
+    # Try to get country from Vercel or Cloudflare headers
+    country = request.headers.get("x-vercel-ip-country") or request.headers.get("cf-ipcountry")
+    if not country or country == "Unknown":
+        try:
+            if ip in ["127.0.0.1", "localhost", "::1"]:
+                country = "Local"
+            else:
+                with urllib.request.urlopen(f"http://ip-api.com/json/{ip}", timeout=2) as response:
+                    data = json.loads(response.read().decode())
+                    country = data.get("country", "Unknown")
+        except Exception:
+            country = "Unknown"
+
     request_data = {
         "ip": ip,
         "user_agent": user_agent,
-        "country": "Unknown", # Placeholder
+        "country": country,
         "device": "Desktop" if "Mobi" not in user_agent else "Mobile",
         "os": "Unknown",
         "browser": "Unknown"
