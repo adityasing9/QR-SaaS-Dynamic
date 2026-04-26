@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Links | QR</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">QR<span>.SaaS</span></div>
+            <a href="dashboard.html" class="btn btn-outline">Back to Dashboard</a>
+        </header>
+
+        <section class="mt-40">
+            <div class="flex justify-between">
+                <h2>All Dynamic Links</h2>
+                <a href="create.html" class="btn btn-primary">+ Create New</a>
+            </div>
+            
+            <div id="linksList" class="mt-40">
+                <!-- Links will load here -->
+            </div>
+        </section>
+    </div>
+
+    <!-- QR Modal -->
+    <div class="modal-overlay" id="qrModal">
+        <div class="modal text-center">
+            <h3>Your Dynamic QR</h3>
+            <div id="qrContainer" class="mt-40"></div>
+            <button class="btn btn-primary mt-40" onclick="document.getElementById('qrModal').style.display='none'">Close</button>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/links.js"></script>
+</body>
+</html>

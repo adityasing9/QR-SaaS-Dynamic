@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR | Dynamic Smart Links</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">QR<span>.SaaS</span></div>
+            <div class="nav-links">
+                <button class="btn btn-outline" id="loginBtn">Login</button>
+                <button class="btn btn-primary" id="signupBtn">Get Started</button>
+            </div>
+        </header>
+
+        <section class="hero text-center mt-40">
+            <h1>Create <span style="color: var(--primary)">Dynamic</span> QR Codes</h1>
+            <p>Track analytics, perform A/B testing, and set smart redirect rules.</p>
+            <div class="mt-40">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://qr-saas.vercel.app" alt="Demo QR" style="border-radius: 12px; box-shadow: var(--shadow);">
+            </div>
+        </section>
+
+        <div class="dashboard-grid mt-40">
+            <div class="card">
+                <h3>📊 Advanced Analytics</h3>
+                <p>Track location, device, and time for every scan with deep insights.</p>
+            </div>
+            <div class="card">
+                <h3>🔀 A/B Testing</h3>
+                <p>Split traffic between two URLs to optimize your conversion rates.</p>
+            </div>
+            <div class="card">
+                <h3>🎯 Smart Rules</h3>
+                <p>Redirect users based on their country, device, or time of scan.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Auth Modals -->
+    <div class="modal-overlay" id="authModal">
+        <div class="modal">
+            <h2 id="modalTitle">Login</h2>
+            <form id="authForm" class="mt-40">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="email" required placeholder="name@company.com">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="password" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%">Continue</button>
+            </form>
+            <p class="text-center mt-40" style="font-size: 14px;">
+                <a href="#" id="toggleAuth">Don't have an account? Sign up</a>
+            </p>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+</body>
+</html>
