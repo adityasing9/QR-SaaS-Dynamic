@@ -46,23 +46,58 @@ function renderAnalytics(data) {
         options: { responsive: true, maintainAspectRatio: false }
     });
 
-    // Country Chart
+    // Country List
     const countries = data.scans_by_country;
-    const topCountry = Object.entries(countries).sort((a,b) => b[1]-a[1])[0];
-    document.getElementById("topCountry").innerText = topCountry ? topCountry[0] : "-";
+    const countryList = document.getElementById("countryList");
+    countryList.innerHTML = "";
+    
+    // Sort by count descending
+    const sortedCountries = Object.entries(countries).sort((a,b) => b[1]-a[1]);
+    
+    if (sortedCountries.length > 0) {
+        document.getElementById("topCountry").innerText = sortedCountries[0][0];
+        
+        sortedCountries.forEach(([country, count]) => {
+            const li = document.createElement("li");
+            li.style.display = "flex";
+            li.style.justifyContent = "space-between";
+            li.style.padding = "10px";
+            li.style.background = "rgba(0,0,0,0.03)";
+            li.style.borderRadius = "8px";
+            
+            li.innerHTML = `
+                <span style="font-weight: 500;">${country}</span>
+                <span style="color: var(--color-gold); font-weight: bold;">${count}</span>
+            `;
+            countryList.appendChild(li);
+        });
+    } else {
+        document.getElementById("topCountry").innerText = "-";
+        countryList.innerHTML = "<p style='opacity: 0.5;'>No data yet.</p>";
+    }
 
-    new Chart(document.getElementById("countryChart"), {
-        type: 'bar',
-        data: {
-            labels: Object.keys(countries),
-            datasets: [{
-                label: 'Scans',
-                data: Object.values(countries),
-                backgroundColor: '#d4af37'
-            }]
-        },
-        options: { responsive: true, maintainAspectRatio: false }
-    });
+    // Recent Scans Table
+    const recentScansTable = document.getElementById("recentScansTable");
+    recentScansTable.innerHTML = "";
+    
+    if (data.recent_visits && data.recent_visits.length > 0) {
+        data.recent_visits.forEach(visit => {
+            const tr = document.createElement("tr");
+            tr.style.borderBottom = "1px solid rgba(0,0,0,0.05)";
+            
+            const date = new Date(visit.timestamp);
+            
+            tr.innerHTML = `
+                <td style="padding: 12px 10px; font-size: 0.9em; opacity: 0.8;">${date.toLocaleString()}</td>
+                <td style="padding: 12px 10px; font-family: monospace;">${visit.ip}</td>
+                <td style="padding: 12px 10px;">${visit.device}</td>
+                <td style="padding: 12px 10px; font-weight: 500;">${visit.country}</td>
+            `;
+            recentScansTable.appendChild(tr);
+        });
+    } else {
+        recentScansTable.innerHTML = "<tr><td colspan='4' style='padding: 20px; text-align: center; opacity: 0.5;'>No detailed scans yet.</td></tr>";
+    }
 
     // Scans Over Time
     const timeline = data.scans_over_time;

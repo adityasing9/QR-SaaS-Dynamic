@@ -71,6 +71,15 @@ class LinkResponse(LinkBase):
     class Config:
         from_attributes = True
 
+class VisitResponse(BaseModel):
+    id: int
+    ip: str
+    country: str
+    device: str
+    timestamp: datetime
+    class Config:
+        from_attributes = True
+
 # Analytics Schemas
 class AnalyticsSummary(BaseModel):
     link: LinkResponse
@@ -79,3 +88,4 @@ class AnalyticsSummary(BaseModel):
     scans_by_country: dict
     scans_by_device: dict
     scans_over_time: list
+    recent_visits: List[VisitResponse]

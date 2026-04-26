@@ -60,12 +60,31 @@
                         <canvas id="deviceChart"></canvas>
                     </div>
                 </div>
-                <div class="card">
+                <div class="card" style="max-height: 400px; overflow-y: auto;">
                     <h3>Country Breakdown</h3>
-                    <div style="height: 300px; position: relative;">
-                        <canvas id="countryChart"></canvas>
-                    </div>
+                    <ul id="countryList" style="margin-top: 20px; list-style: none; padding: 0; display: flex; flex-direction: column; gap: 10px;">
+                        <!-- Country data inserted via JS -->
+                    </ul>
                 </div>
+            </div>
+        </section>
+
+        <section class="mt-40">
+            <div class="card" style="overflow-x: auto;">
+                <h3>Recent Scans (Detailed)</h3>
+                <table style="width: 100%; text-align: left; border-collapse: collapse; margin-top: 20px; min-width: 600px;">
+                    <thead>
+                        <tr style="border-bottom: 1px solid rgba(255,255,255,0.1); color: var(--color-gold);">
+                            <th style="padding: 12px 10px;">Time</th>
+                            <th style="padding: 12px 10px;">IP Address</th>
+                            <th style="padding: 12px 10px;">Device</th>
+                            <th style="padding: 12px 10px;">Country</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recentScansTable">
+                        <!-- Scans data inserted via JS -->
+                    </tbody>
+                </table>
             </div>
         </section>
     </div>

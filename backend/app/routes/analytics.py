@@ -24,11 +24,15 @@ def get_link_analytics(link_id: int, db: Session = Depends(get_db), current_user
     # Simple scans over time (last 7 days)
     over_time = db.query(func.date(models.Visit.timestamp), func.count(models.Visit.id)).filter(models.Visit.link_id == link_id).group_by(func.date(models.Visit.timestamp)).all()
 
+    # Recent visits
+    recent_visits = db.query(models.Visit).filter(models.Visit.link_id == link_id).order_by(models.Visit.timestamp.desc()).limit(50).all()
+
     return {
         "link": link,
         "total_scans": total_scans,
         "unique_visitors": unique_visitors,
         "scans_by_country": {c: count for c, count in countries},
         "scans_by_device": {d: count for d, count in devices},
-        "scans_over_time": [{"date": str(d), "count": count} for d, count in over_time]
+        "scans_over_time": [{"date": str(d), "count": count} for d, count in over_time],
+        "recent_visits": recent_visits
     }
