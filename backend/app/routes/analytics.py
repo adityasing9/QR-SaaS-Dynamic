@@ -25,6 +25,7 @@ def get_link_analytics(link_id: int, db: Session = Depends(get_db), current_user
     over_time = db.query(func.date(models.Visit.timestamp), func.count(models.Visit.id)).filter(models.Visit.link_id == link_id).group_by(func.date(models.Visit.timestamp)).all()
 
     return {
+        "link": link,
         "total_scans": total_scans,
         "unique_visitors": unique_visitors,
         "scans_by_country": {c: count for c, count in countries},

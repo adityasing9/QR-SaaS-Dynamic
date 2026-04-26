@@ -26,19 +26,14 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 function renderAnalytics(data) {
     const link = data.link;
-    const visits = data.visits;
 
     document.getElementById("linkTitle").innerText = link.title || link.short_code;
     document.getElementById("linkUrl").innerText = link.original_url;
-    document.getElementById("totalScans").innerText = link.current_scans;
-    
-    const uniqueVisitors = new Set(visits.map(v => v.visitor_id)).size;
-    document.getElementById("uniqueVisitors").innerText = uniqueVisitors;
+    document.getElementById("totalScans").innerText = data.total_scans;
+    document.getElementById("uniqueVisitors").innerText = data.unique_visitors;
 
     // Device Chart
-    const devices = {};
-    visits.forEach(v => devices[v.device] = (devices[v.device] || 0) + 1);
-    
+    const devices = data.scans_by_device;
     new Chart(document.getElementById("deviceChart"), {
         type: 'doughnut',
         data: {
@@ -52,9 +47,7 @@ function renderAnalytics(data) {
     });
 
     // Country Chart
-    const countries = {};
-    visits.forEach(v => countries[v.country] = (countries[v.country] || 0) + 1);
-    
+    const countries = data.scans_by_country;
     const topCountry = Object.entries(countries).sort((a,b) => b[1]-a[1])[0];
     document.getElementById("topCountry").innerText = topCountry ? topCountry[0] : "-";
 
@@ -72,19 +65,14 @@ function renderAnalytics(data) {
     });
 
     // Scans Over Time
-    const timeline = {};
-    visits.forEach(v => {
-        const date = new Date(v.timestamp).toLocaleDateString();
-        timeline[date] = (timeline[date] || 0) + 1;
-    });
-
+    const timeline = data.scans_over_time;
     new Chart(document.getElementById("scansChart"), {
         type: 'line',
         data: {
-            labels: Object.keys(timeline),
+            labels: timeline.map(t => t.date),
             datasets: [{
                 label: 'Daily Scans',
-                data: Object.values(timeline),
+                data: timeline.map(t => t.count),
                 borderColor: '#d4af37',
                 tension: 0.3,
                 fill: true,
