@@ -1,7 +1,26 @@
 let rules = [];
+let currentQrMode = 'dynamic';
+
+function setQrMode(mode) {
+    currentQrMode = mode;
+    document.getElementById('tabDynamic').classList.toggle('active', mode === 'dynamic');
+    document.getElementById('tabStatic').classList.toggle('active', mode === 'static');
+    
+    if (mode === 'static') {
+        document.getElementById('dynamicConfigTitle').style.display = 'none';
+        document.getElementById('dynamicConfigContainer').style.display = 'none';
+        document.getElementById('generateBtn').innerText = 'Generate Static QR';
+        document.getElementById('title').removeAttribute('required');
+    } else {
+        document.getElementById('dynamicConfigTitle').style.display = 'block';
+        document.getElementById('dynamicConfigContainer').style.display = 'block';
+        document.getElementById('generateBtn').innerText = 'Generate Dynamic QR';
+        document.getElementById('title').setAttribute('required', 'true');
+    }
+}
 
 function showTab(tabId) {
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('#dynamicConfigContainer .tab').forEach(t => t.classList.remove('active'));
     document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
     
     document.querySelector(`[onclick="showTab('${tabId}')"]`).classList.add('active');
@@ -34,9 +53,31 @@ function removeRule(id) {
 document.getElementById("createLinkForm").addEventListener("submit", async (e) => {
     e.preventDefault();
     
+    const originalUrl = document.getElementById("originalUrl").value;
+    
+    if (currentQrMode === 'static') {
+        try {
+            document.getElementById("generateBtn").innerText = "Generating...";
+            const data = await api.links.generateStatic(originalUrl);
+            
+            // Show result
+            document.getElementById("createLinkForm").parentElement.style.display = 'none';
+            document.getElementById("staticResultSection").style.display = 'block';
+            
+            const qrSrc = "data:image/png;base64," + data.qr_code;
+            document.getElementById("staticQrImage").src = qrSrc;
+            document.getElementById("downloadStaticQr").href = qrSrc;
+        } catch (error) {
+            alert(error.message);
+            document.getElementById("generateBtn").innerText = "Generate Static QR";
+        }
+        return;
+    }
+    
+    // Dynamic Logic
     const payload = {
         title: document.getElementById("title").value,
-        original_url: document.getElementById("originalUrl").value,
+        original_url: originalUrl,
         max_scans: parseInt(document.getElementById("maxScans").value) || -1,
         expires_at: document.getElementById("expiresAt").value || null,
         rules: [],
@@ -66,10 +107,11 @@ document.getElementById("createLinkForm").addEventListener("submit", async (e) =
     }
 
     try {
+        document.getElementById("generateBtn").innerText = "Saving...";
         await api.links.create(payload);
-        alert("Link created successfully!");
         window.location.href = "dashboard.html";
     } catch (error) {
         alert(error.message);
+        document.getElementById("generateBtn").innerText = "Generate Dynamic QR";
     }
 });

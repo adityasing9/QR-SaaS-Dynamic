@@ -25,52 +25,69 @@
             <div class="card">
                 <h2>Create New Dynamic Link</h2>
                 <form id="createLinkForm" class="mt-40">
-                    <div class="form-group">
+                    <div class="tabs" style="margin-bottom: 30px;">
+                        <div class="tab active" id="tabDynamic" onclick="setQrMode('dynamic')">Dynamic QR (Trackable)</div>
+                        <div class="tab" id="tabStatic" onclick="setQrMode('static')">Static QR (Direct)</div>
+                    </div>
+
+                    <div id="dynamicConfigTitle" class="form-group">
                         <label>Link Title (Internal)</label>
-                        <input type="text" id="title" placeholder="e.g., Summer Campaign 2026" required>
+                        <input type="text" id="title" placeholder="e.g., Summer Campaign 2026">
                     </div>
                     <div class="form-group">
                         <label>Default Destination URL</label>
                         <input type="url" id="originalUrl" placeholder="https://example.com/welcome" required>
                     </div>
 
-                    <div class="tabs mt-40">
-                        <div class="tab active" onclick="showTab('settings')">General Settings</div>
-                        <div class="tab" onclick="showTab('rules')">Smart Rules</div>
-                        <div class="tab" onclick="showTab('abtest')">A/B Testing</div>
+                    <div id="dynamicConfigContainer">
+                        <div class="tabs mt-40">
+                            <div class="tab active" onclick="showTab('settings')">General Settings</div>
+                            <div class="tab" onclick="showTab('rules')">Smart Rules</div>
+                            <div class="tab" onclick="showTab('abtest')">A/B Testing</div>
+                        </div>
+
+                        <div id="settings" class="tab-content active">
+                            <div class="form-group">
+                                <label>Max Scans (Optional)</label>
+                                <input type="number" id="maxScans" placeholder="-1 for unlimited">
+                            </div>
+                            <div class="form-group">
+                                <label>Expiry Date (Optional)</label>
+                                <input type="datetime-local" id="expiresAt">
+                            </div>
+                        </div>
+
+                        <div id="rules" class="tab-content">
+                            <p style="font-size: 14px; color: #666; margin-bottom: 20px;">Redirect users based on country, device, or time.</p>
+                            <div id="rulesList"></div>
+                            <button type="button" class="btn btn-outline" style="width: 100%" onclick="addRule()">+ Add Rule</button>
+                        </div>
+
+                        <div id="abtest" class="tab-content">
+                            <p style="font-size: 14px; color: #666; margin-bottom: 20px;">Split traffic between two URLs to test performance.</p>
+                            <div class="form-group">
+                                <label>Variant A URL (50% traffic)</label>
+                                <input type="url" id="urlA" placeholder="https://example.com/variant-a">
+                            </div>
+                            <div class="form-group">
+                                <label>Variant B URL (50% traffic)</label>
+                                <input type="url" id="urlB" placeholder="https://example.com/variant-b">
+                            </div>
+                        </div>
                     </div>
 
-                    <div id="settings" class="tab-content active">
-                        <div class="form-group">
-                            <label>Max Scans (Optional)</label>
-                            <input type="number" id="maxScans" placeholder="-1 for unlimited">
-                        </div>
-                        <div class="form-group">
-                            <label>Expiry Date (Optional)</label>
-                            <input type="datetime-local" id="expiresAt">
-                        </div>
-                    </div>
+                    <button type="submit" id="generateBtn" class="btn btn-primary mt-40" style="width: 100%; height: 50px; font-size: 16px;">Generate Dynamic QR</button>
 
-                    <div id="rules" class="tab-content">
-                        <p style="font-size: 14px; color: #666; margin-bottom: 20px;">Redirect users based on country, device, or time.</p>
-                        <div id="rulesList"></div>
-                        <button type="button" class="btn btn-outline" style="width: 100%" onclick="addRule()">+ Add Rule</button>
-                    </div>
-
-                    <div id="abtest" class="tab-content">
-                        <p style="font-size: 14px; color: #666; margin-bottom: 20px;">Split traffic between two URLs to test performance.</p>
-                        <div class="form-group">
-                            <label>Variant A URL (50% traffic)</label>
-                            <input type="url" id="urlA" placeholder="https://example.com/variant-a">
-                        </div>
-                        <div class="form-group">
-                            <label>Variant B URL (50% traffic)</label>
-                            <input type="url" id="urlB" placeholder="https://example.com/variant-b">
-                        </div>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary mt-40" style="width: 100%; height: 50px; font-size: 16px;">Generate Dynamic QR</button>
                 </form>
+            </div>
+        </section>
+        <section id="staticResultSection" class="mt-40" style="max-width: 800px; margin-left: auto; margin-right: auto; display: none;">
+            <div class="card" style="text-align: center;">
+                <h2>Your Static QR Code</h2>
+                <p style="margin-bottom: 20px; opacity: 0.7;">This QR code points directly to your URL and is not tracked.</p>
+                <img id="staticQrImage" src="" alt="Static QR" style="max-width: 250px; border-radius: 10px; margin: 0 auto; display: block;">
+                <a id="downloadStaticQr" href="#" download="static-qr.png" class="btn btn-outline mt-40" style="display: inline-block;">Download QR Code</a>
+                <button onclick="window.location.reload()" class="btn btn-primary mt-40" style="display: inline-block; margin-left: 10px;">Create Another</button>
             </div>
         </section>
     </div>

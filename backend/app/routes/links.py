@@ -11,6 +11,11 @@ from ..services import qr_service
 
 router = APIRouter(prefix="/links", tags=["links"])
 
+from pydantic import BaseModel
+
+class StaticQRRequest(BaseModel):
+    url: str
+
 def generate_short_code(length=6):
     return ''.join(random.choices(string.ascii_letters + string.digits, k=length))
 
@@ -46,6 +51,11 @@ def create_link(link_in: schemas.LinkCreate, db: Session = Depends(get_db), curr
     db.commit()
     db.refresh(db_link)
     return db_link
+
+@router.post("/static")
+def generate_static_qr(data: StaticQRRequest):
+    qr_data = qr_service.generate_qr_base64(data.url)
+    return {"qr_code": qr_data}
 
 @router.get("/", response_model=List[schemas.LinkResponse])
 def get_links(db: Session = Depends(get_db), current_user: models.User = Depends(get_current_user)):
