@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://localhost:8000";
+const API_BASE_URL = "https://qr-saas-dynamic.onrender.com";
 
 const api = {
     async fetch(endpoint, options = {}) {
