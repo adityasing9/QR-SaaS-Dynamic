@@ -31,9 +31,10 @@ A complete, production-ready Dynamic QR Code SaaS platform with advanced analyti
 
 ---
 
-## ⚙️ Setup Instructions
+## ⚙️ Setup & Deployment
+For a detailed step-by-step guide on how to deploy this project to the cloud (Aiven + Render + Vercel), see [DEPLOYMENT.md](./DEPLOYMENT.md).
 
-### Backend:
+### Local Backend:
 1. **Clone and Enter Backend:**
    ```bash
    cd backend
