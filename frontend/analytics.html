@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics | QR</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">QR<span>.SaaS</span></div>
+            <div class="flex">
+                <a href="dashboard.html" class="btn btn-outline">Dashboard</a>
+                <a href="links.html" class="btn btn-outline">My Links</a>
+                <button class="btn btn-secondary" id="logoutBtn">Logout</button>
+            </div>
+        </header>
+
+        <section class="mt-40">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h2 id="linkTitle">Loading...</h2>
+                    <p id="linkUrl" style="opacity: 0.6;"></p>
+                </div>
+                <div id="linkStatus"></div>
+            </div>
+
+            <div class="dashboard-grid mt-40">
+                <div class="card stats-card">
+                    <p>Total Scans</p>
+                    <h3 id="totalScans">0</h3>
+                </div>
+                <div class="card stats-card">
+                    <p>Unique Visitors</p>
+                    <h3 id="uniqueVisitors">0</h3>
+                </div>
+                <div class="card stats-card">
+                    <p>Top Country</p>
+                    <h3 id="topCountry">-</h3>
+                </div>
+            </div>
+        </section>
+
+        <section class="mt-40">
+            <div class="card">
+                <h3>Scan Distribution</h3>
+                <div style="height: 300px; margin-top: 20px;">
+                    <canvas id="scansChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <section class="mt-40">
+            <div class="grid-2">
+                <div class="card">
+                    <h3>Device Breakdown</h3>
+                    <canvas id="deviceChart"></canvas>
+                </div>
+                <div class="card">
+                    <h3>Country Breakdown</h3>
+                    <canvas id="countryChart"></canvas>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/analytics.js"></script>
+</body>
+</html>

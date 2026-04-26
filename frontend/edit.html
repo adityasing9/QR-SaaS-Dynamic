@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Link | QR</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">QR<span>.SaaS</span></div>
+            <div class="flex">
+                <a href="dashboard.html" class="btn btn-outline">Dashboard</a>
+                <a href="links.html" class="btn btn-outline">My Links</a>
+                <button class="btn btn-secondary" id="logoutBtn">Logout</button>
+            </div>
+        </header>
+
+        <section class="mt-40">
+            <div class="card" style="max-width: 600px; margin: 0 auto;">
+                <h2>Edit Smart Link</h2>
+                <form id="editLinkForm" class="mt-40">
+                    <div class="form-group">
+                        <label>Link Title</label>
+                        <input type="text" id="title" placeholder="e.g. Summer Campaign" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Destination URL</label>
+                        <input type="url" id="original_url" placeholder="https://example.com" required>
+                    </div>
+                    
+                    <div id="rulesContainer">
+                        <h3>Redirect Rules</h3>
+                        <div id="rulesList"></div>
+                        <button type="button" class="btn btn-outline mt-20" id="addRuleBtn">+ Add Rule</button>
+                    </div>
+
+                    <div class="form-group mt-40">
+                        <label>Max Scans (-1 for unlimited)</label>
+                        <input type="number" id="max_scans" value="-1">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary mt-20" style="width: 100%;">Update Dynamic QR</button>
+                </form>
+            </div>
+        </section>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/edit.js"></script>
+</body>
+</html>

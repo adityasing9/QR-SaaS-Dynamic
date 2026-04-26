@@ -19,9 +19,10 @@ async function loadLinks() {
                     <p style="font-size: 12px; margin-top: 5px; color: var(--primary)">/r/${link.short_code}</p>
                 </div>
                 <div class="flex">
-                    <button class="btn btn-outline" onclick="showQR(${link.id})">Show QR</button>
-                    <a href="analytics.html?id=${link.id}" class="btn btn-secondary">Stats</a>
-                    <button class="btn btn-outline" style="color: red; border-color: red;" onclick="deleteLink(${link.id})">Delete</button>
+                    <button class="btn btn-primary" style="margin-right: 8px;" onclick="showQR(${link.id})">QR</button>
+                    <a href="edit.html?id=${link.id}" class="btn btn-outline" style="margin-right: 8px;">Edit</a>
+                    <a href="analytics.html?id=${link.id}" class="btn btn-outline" style="margin-right: 8px;">Stats</a>
+                    <button class="btn btn-outline" style="color: #ff4d4d; border-color: #ff4d4d;" onclick="deleteLink(${link.id})">Delete</button>
                 </div>
             </div>
         `).join("");

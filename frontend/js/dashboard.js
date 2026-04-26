@@ -35,7 +35,7 @@ function renderDashboard(links) {
                 <p style="font-size: 14px; opacity: 0.6;">${link.original_url.substring(0, 50)}...</p>
             </div>
             <div class="flex">
-                <span class="btn btn-outline" style="padding: 5px 12px;">${link.current_scans} scans</span>
+                <a href="edit.html?id=${link.id}" class="btn btn-outline" style="padding: 8px 16px; margin-right: 8px;">Edit</a>
                 <a href="analytics.html?id=${link.id}" class="btn btn-primary" style="padding: 8px 16px;">View Stats</a>
             </div>
         </div>

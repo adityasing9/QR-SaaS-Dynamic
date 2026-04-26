@@ -69,9 +69,18 @@ const api = {
         async getAll() {
             return api.fetch("/links/");
         },
+        async getOne(id) {
+            return api.fetch(`/links/${id}`);
+        },
         async create(data) {
             return api.fetch("/links/", {
                 method: "POST",
+                body: JSON.stringify(data),
+            });
+        },
+        async update(id, data) {
+            return api.fetch(`/links/${id}`, {
+                method: "PUT",
                 body: JSON.stringify(data),
             });
         },
