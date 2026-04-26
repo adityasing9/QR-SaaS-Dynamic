@@ -80,5 +80,5 @@ For a detailed step-by-step guide on how to deploy this project to the cloud (Ai
 * **API for Developers:** Public API for third-party integrations.
 
 ## 👨‍💻 Author
-**Antigravity AI**
+**Aaditya Singh**
 Designed for High-Performance SaaS scalability.
