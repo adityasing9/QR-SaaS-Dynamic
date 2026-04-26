@@ -4,7 +4,7 @@ A complete, production-ready Dynamic QR Code SaaS platform with advanced analyti
 
 ## 🚀 Live Demo Links
 * **GitHub Repository:** [https://github.com/adityasing9/QR-SaaS-Dynamic](https://github.com/adityasing9/QR-SaaS-Dynamic)
-* **Live Frontend:** [https://qr-saas-dynamic.vercel.app](https://qr-saas-dynamic.vercel.app)
+* **Live Frontend:** [https://qr-saa-s-dynamic.vercel.app](https://qr-saa-s-dynamic.vercel.app)
 * **Live Backend API:** [https://qr-saas-dynamic.onrender.com](https://qr-saas-dynamic.onrender.com)
 
 ---
