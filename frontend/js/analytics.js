@@ -85,7 +85,8 @@ function renderAnalytics(data) {
             const tr = document.createElement("tr");
             tr.style.borderBottom = "1px solid rgba(0,0,0,0.05)";
             
-            const date = new Date(visit.timestamp);
+            const dateStr = visit.timestamp.endsWith('Z') ? visit.timestamp : visit.timestamp + 'Z';
+            const date = new Date(dateStr);
             
             tr.innerHTML = `
                 <td style="padding: 12px 10px; font-size: 0.9em; opacity: 0.8;">${date.toLocaleString()}</td>
