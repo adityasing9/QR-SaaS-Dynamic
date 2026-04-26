@@ -1,3 +1,6 @@
 {
-  "cleanUrls": true
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/r/(.*)", "destination": "https://qr-saas-dynamic.onrender.com/r/$1" }
+  ]
 }

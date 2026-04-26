@@ -11,7 +11,7 @@ router = APIRouter()
 
 @router.get("/r/{short_code}")
 async def redirect_to_url(short_code: str, request: Request, db: Session = Depends(get_db)):
-    link = db.query(models.models.Link).filter(models.models.Link.short_code == short_code, models.models.Link.is_active == True).first()
+    link = db.query(models.Link).filter(models.Link.short_code == short_code, models.Link.is_active == True).first()
     
     if not link:
         raise HTTPException(status_code=404, detail="Link not found or inactive")
@@ -44,7 +44,7 @@ async def redirect_to_url(short_code: str, request: Request, db: Session = Depen
     target_url = redirect_engine.process_redirect(link, request_data)
 
     # Log analytics (Async would be better)
-    visit = models.models.Visit(
+    visit = models.Visit(
         link_id=link.id,
         visitor_id=visitor_id,
         ip=ip,
