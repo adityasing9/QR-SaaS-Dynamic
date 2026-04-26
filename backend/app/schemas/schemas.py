@@ -73,6 +73,7 @@ class LinkResponse(LinkBase):
 
 # Analytics Schemas
 class AnalyticsSummary(BaseModel):
+    link: LinkResponse
     total_scans: int
     unique_visitors: int
     scans_by_country: dict
