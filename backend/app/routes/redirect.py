@@ -45,13 +45,30 @@ async def redirect_to_url(short_code: str, request: Request, db: Session = Depen
         except Exception:
             country = "Unknown"
 
+    os_name = "Unknown"
+    if "Windows" in user_agent: os_name = "Windows"
+    elif "Mac OS" in user_agent or "Macintosh" in user_agent: os_name = "macOS"
+    elif "Android" in user_agent: os_name = "Android"
+    elif "iPhone" in user_agent or "iPad" in user_agent: os_name = "iOS"
+    elif "Linux" in user_agent: os_name = "Linux"
+
+    browser_name = "Unknown"
+    if "Edg" in user_agent: browser_name = "Edge"
+    elif "OPR" in user_agent or "Opera" in user_agent: browser_name = "Opera"
+    elif "Chrome" in user_agent: browser_name = "Chrome"
+    elif "Safari" in user_agent: browser_name = "Safari"
+    elif "Firefox" in user_agent: browser_name = "Firefox"
+
+    device_type = "Mobile" if "Mobi" in user_agent else "Desktop"
+    if "iPad" in user_agent or "Tablet" in user_agent: device_type = "Tablet"
+
     request_data = {
         "ip": ip,
         "user_agent": user_agent,
         "country": country,
-        "device": "Desktop" if "Mobi" not in user_agent else "Mobile",
-        "os": "Unknown",
-        "browser": "Unknown"
+        "device": device_type,
+        "os": os_name,
+        "browser": browser_name
     }
 
     # Process redirect engine

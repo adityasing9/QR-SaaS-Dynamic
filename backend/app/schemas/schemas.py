@@ -76,6 +76,8 @@ class VisitResponse(BaseModel):
     ip: str
     country: str
     device: str
+    os: str
+    browser: str
     timestamp: datetime
     class Config:
         from_attributes = True

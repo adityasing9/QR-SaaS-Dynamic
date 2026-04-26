@@ -90,7 +90,7 @@ function renderAnalytics(data) {
             tr.innerHTML = `
                 <td style="padding: 12px 10px; font-size: 0.9em; opacity: 0.8;">${date.toLocaleString()}</td>
                 <td style="padding: 12px 10px; font-family: monospace;">${visit.ip}</td>
-                <td style="padding: 12px 10px;">${visit.device}</td>
+                <td style="padding: 12px 10px;">${visit.device} <span style="opacity:0.6; font-size: 0.8em;">(${visit.os}, ${visit.browser})</span></td>
                 <td style="padding: 12px 10px; font-weight: 500;">${visit.country}</td>
             `;
             recentScansTable.appendChild(tr);
