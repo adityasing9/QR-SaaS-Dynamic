@@ -1,7 +1,0 @@
-{
-  "name": "qr-saas-dynamic",
-  "cleanUrls": true,
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/frontend/$1" }
-  ]
-}
