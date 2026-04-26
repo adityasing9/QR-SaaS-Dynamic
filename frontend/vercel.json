@@ -1,6 +1,6 @@
 {
   "cleanUrls": true,
   "rewrites": [
-    { "source": "/r/(.*)", "destination": "https://qr-saas-dynamic.onrender.com/r/$1" }
+    { "source": "/r/:code", "destination": "https://qr-saas-dynamic.onrender.com/r/:code" }
   ]
 }

@@ -58,7 +58,7 @@ def get_link_qr(link_id: int, db: Session = Depends(get_db), current_user: model
         raise HTTPException(status_code=404, detail="Link not found")
     
     # In production, use the actual domain
-    short_url = f"https://qr-saas.vercel.app/r/{link.short_code}"
+    short_url = f"https://qr-saa-s-dynamic.vercel.app/r/{link.short_code}"
     qr_data = qr_service.generate_qr_base64(short_url)
     return {"qr_code": qr_data}
 
