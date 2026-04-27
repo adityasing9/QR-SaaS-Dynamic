@@ -28,16 +28,23 @@ function renderDashboard(links) {
         return;
     }
 
-    list.innerHTML = links.slice(0, 5).map(link => `
+    list.innerHTML = links.slice(0, 5).map(link => {
+        const isStatic = link.short_code.startsWith('ST_');
+        return `
         <div class="card flex justify-between" style="margin-bottom: 15px;">
             <div>
-                <h4 style="margin-bottom: 5px;">${link.title || link.short_code}</h4>
+                <h4 style="margin-bottom: 5px;">${link.title || link.short_code} ${isStatic ? '<span style="font-size: 10px; background: #eee; padding: 2px 4px; border-radius: 4px; margin-left: 6px;">Static</span>' : ''}</h4>
                 <p style="font-size: 14px; opacity: 0.6;">${link.original_url.substring(0, 50)}...</p>
             </div>
             <div class="flex">
-                <a href="edit.html?id=${link.id}" class="btn btn-outline" style="padding: 8px 16px; margin-right: 8px;">Edit</a>
-                <a href="analytics.html?id=${link.id}" class="btn btn-primary" style="padding: 8px 16px;">View Stats</a>
+                ${!isStatic ? `
+                    <a href="edit.html?id=${link.id}" class="btn btn-outline" style="padding: 8px 16px; margin-right: 8px;">Edit</a>
+                    <a href="analytics.html?id=${link.id}" class="btn btn-primary" style="padding: 8px 16px;">View Stats</a>
+                ` : `
+                    <button class="btn btn-primary" style="padding: 8px 16px;" onclick="window.location.href='links.html'">View QR</button>
+                `}
             </div>
         </div>
-    `).join("");
+        `
+    }).join("");
 }

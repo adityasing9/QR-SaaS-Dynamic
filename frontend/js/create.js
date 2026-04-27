@@ -61,7 +61,8 @@ document.getElementById("createLinkForm").addEventListener("submit", async (e) =
         let dynamicPromise = null;
 
         if (isStatic) {
-            staticPromise = api.links.generateStatic(originalUrl);
+            const title = document.getElementById("title").value || "Static QR";
+            staticPromise = api.links.generateStatic(originalUrl, title);
         }
 
         if (isDynamic) {

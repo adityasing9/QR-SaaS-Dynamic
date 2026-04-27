@@ -92,10 +92,10 @@ const api = {
         async getQR(id) {
             return api.fetch(`/links/${id}/qr`);
         },
-        async generateStatic(url) {
+        async generateStatic(url, title) {
             return api.fetch("/links/static", {
                 method: "POST",
-                body: JSON.stringify({ url })
+                body: JSON.stringify({ url, title })
             });
         }
     },

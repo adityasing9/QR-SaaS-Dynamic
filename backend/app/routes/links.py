@@ -15,6 +15,7 @@ from pydantic import BaseModel
 
 class StaticQRRequest(BaseModel):
     url: str
+    title: str = None
 
 def generate_short_code(length=6):
     return ''.join(random.choices(string.ascii_letters + string.digits, k=length))
@@ -53,7 +54,21 @@ def create_link(link_in: schemas.LinkCreate, db: Session = Depends(get_db), curr
     return db_link
 
 @router.post("/static")
-def generate_static_qr(data: StaticQRRequest):
+def generate_static_qr(data: StaticQRRequest, db: Session = Depends(get_db), current_user: models.User = Depends(get_current_user)):
+    short_code = "ST_" + generate_short_code(7)
+    while db.query(models.Link).filter(models.Link.short_code == short_code).first():
+        short_code = "ST_" + generate_short_code(7)
+        
+    db_link = models.Link(
+        user_id=current_user.id,
+        short_code=short_code,
+        title=data.title or "Static QR",
+        original_url=data.url,
+        max_scans=-1
+    )
+    db.add(db_link)
+    db.commit()
+
     qr_data = qr_service.generate_qr_base64(data.url)
     return {"qr_code": qr_data}
 
@@ -67,9 +82,12 @@ def get_link_qr(link_id: int, db: Session = Depends(get_db), current_user: model
     if not link:
         raise HTTPException(status_code=404, detail="Link not found")
     
-    # In production, use the actual domain
-    short_url = f"https://qr-saa-s-dynamic.vercel.app/r/{link.short_code}"
-    qr_data = qr_service.generate_qr_base64(short_url)
+    if link.short_code.startswith("ST_"):
+        qr_data = qr_service.generate_qr_base64(link.original_url)
+    else:
+        short_url = f"https://qr-saa-s-dynamic.vercel.app/r/{link.short_code}"
+        qr_data = qr_service.generate_qr_base64(short_url)
+        
     return {"qr_code": qr_data}
 
 @router.put("/{link_id}", response_model=schemas.LinkResponse)

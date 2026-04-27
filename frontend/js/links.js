@@ -11,21 +11,26 @@ async function loadLinks() {
             return;
         }
 
-        list.innerHTML = links.map(link => `
+        list.innerHTML = links.map(link => {
+            const isStatic = link.short_code.startsWith('ST_');
+            return `
             <div class="card flex justify-between" style="margin-bottom: 20px;">
                 <div style="flex: 1">
-                    <h3>${link.title || link.short_code}</h3>
+                    <h3>${link.title || link.short_code} ${isStatic ? '<span style="font-size: 12px; background: #eee; padding: 2px 6px; border-radius: 4px; margin-left: 8px;">Static</span>' : ''}</h3>
                     <p style="font-size: 14px; opacity: 0.7;">Dest: ${link.original_url}</p>
-                    <p style="font-size: 12px; margin-top: 5px; color: var(--primary)">/r/${link.short_code}</p>
+                    ${!isStatic ? `<p style="font-size: 12px; margin-top: 5px; color: var(--primary)">/r/${link.short_code}</p>` : ''}
                 </div>
                 <div class="flex">
-                    <button class="btn btn-primary" style="margin-right: 8px;" onclick="showQR(${link.id})">QR</button>
-                    <a href="edit.html?id=${link.id}" class="btn btn-outline" style="margin-right: 8px;">Edit</a>
-                    <a href="analytics.html?id=${link.id}" class="btn btn-outline" style="margin-right: 8px;">Stats</a>
+                    <button class="btn btn-primary" style="margin-right: 8px;" onclick="showQR(${link.id})">View QR</button>
+                    ${!isStatic ? `
+                        <a href="edit.html?id=${link.id}" class="btn btn-outline" style="margin-right: 8px;">Edit</a>
+                        <a href="analytics.html?id=${link.id}" class="btn btn-outline" style="margin-right: 8px;">Stats</a>
+                    ` : ''}
                     <button class="btn btn-outline" style="color: #ff4d4d; border-color: #ff4d4d;" onclick="deleteLink(${link.id})">Delete</button>
                 </div>
             </div>
-        `).join("");
+            `
+        }).join("");
     } catch (error) {
         alert(error.message);
     }
