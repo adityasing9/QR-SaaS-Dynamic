@@ -25,9 +25,24 @@
             <div class="card">
                 <h2>Create New Dynamic Link</h2>
                 <form id="createLinkForm" class="mt-40">
-                    <div class="tabs" style="margin-bottom: 30px;">
-                        <div class="tab active" id="tabDynamic" onclick="setQrMode('dynamic')">Dynamic QR (Trackable)</div>
-                        <div class="tab" id="tabStatic" onclick="setQrMode('static')">Static QR (Direct)</div>
+                    <div class="form-group" style="background: rgba(0,0,0,0.02); padding: 20px; border-radius: 8px; border: 1px solid #eee; margin-bottom: 30px;">
+                        <label style="margin-bottom: 15px; display: block; font-weight: bold;">QR Output Type (Select at least one)</label>
+                        
+                        <label style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px; font-weight: normal; cursor: pointer;">
+                            <input type="checkbox" id="checkDynamic" checked onchange="toggleQrMode()" style="width: 20px; height: 20px; accent-color: var(--primary);">
+                            <div>
+                                <div style="font-weight: 500;">Dynamic QR (Trackable)</div>
+                                <div style="font-size: 0.85em; opacity: 0.6;">Tracks scans, lets you change URLs later, supports Smart Rules.</div>
+                            </div>
+                        </label>
+
+                        <label style="display: flex; align-items: center; gap: 10px; font-weight: normal; cursor: pointer;">
+                            <input type="checkbox" id="checkStatic" onchange="toggleQrMode()" style="width: 20px; height: 20px; accent-color: var(--primary);">
+                            <div>
+                                <div style="font-weight: 500;">Static QR (Direct)</div>
+                                <div style="font-size: 0.85em; opacity: 0.6;">Hardcodes destination URL into the QR. Cannot be tracked or changed later.</div>
+                            </div>
+                        </label>
                     </div>
 
                     <div id="dynamicConfigTitle" class="form-group">
@@ -81,13 +96,32 @@
                 </form>
             </div>
         </section>
-        <section id="staticResultSection" class="mt-40" style="max-width: 800px; margin-left: auto; margin-right: auto; display: none;">
+        <section id="resultSection" class="mt-40" style="max-width: 800px; margin-left: auto; margin-right: auto; display: none;">
             <div class="card" style="text-align: center;">
-                <h2>Your Static QR Code</h2>
-                <p style="margin-bottom: 20px; opacity: 0.7;">This QR code points directly to your URL and is not tracked.</p>
-                <img id="staticQrImage" src="" alt="Static QR" style="max-width: 250px; border-radius: 10px; margin: 0 auto; display: block;">
-                <a id="downloadStaticQr" href="#" download="static-qr.png" class="btn btn-outline mt-40" style="display: inline-block;">Download QR Code</a>
-                <button onclick="window.location.reload()" class="btn btn-primary mt-40" style="display: inline-block; margin-left: 10px;">Create Another</button>
+                <h2>Your QR Codes are Ready!</h2>
+                
+                <div id="dynamicResult" style="display: none; margin-top: 30px; padding-top: 30px; border-top: 1px solid #eee;">
+                    <h3>Dynamic QR Code</h3>
+                    <p style="margin-bottom: 20px; opacity: 0.7;">This QR is trackable. You can manage it from your Dashboard.</p>
+                    <img id="dynamicQrImage" src="" alt="Dynamic QR" style="max-width: 250px; border-radius: 10px; margin: 0 auto; display: block;">
+                    <div class="mt-40">
+                        <a id="downloadDynamicQr" href="#" download="dynamic-qr.png" class="btn btn-primary" style="display: inline-block;">Download Dynamic QR</a>
+                    </div>
+                </div>
+
+                <div id="staticResult" style="display: none; margin-top: 30px; padding-top: 30px; border-top: 1px solid #eee;">
+                    <h3>Static QR Code</h3>
+                    <p style="margin-bottom: 20px; opacity: 0.7;">This QR points directly to your URL and is not tracked.</p>
+                    <img id="staticQrImage" src="" alt="Static QR" style="max-width: 250px; border-radius: 10px; margin: 0 auto; display: block;">
+                    <div class="mt-40">
+                        <a id="downloadStaticQr" href="#" download="static-qr.png" class="btn btn-outline" style="display: inline-block;">Download Static QR</a>
+                    </div>
+                </div>
+
+                <div class="mt-40" style="padding-top: 30px;">
+                    <a href="dashboard.html" class="btn btn-outline" style="display: inline-block; margin-right: 10px;">Go to Dashboard</a>
+                    <button onclick="window.location.reload()" class="btn btn-primary" style="display: inline-block;">Create Another</button>
+                </div>
             </div>
         </section>
     </div>
