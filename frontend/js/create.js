@@ -102,14 +102,14 @@ document.getElementById("createLinkForm").addEventListener("submit", async (e) =
         document.getElementById("resultSection").style.display = 'block';
 
         if (isStatic && staticResult) {
-            const qrSrc = "data:image/png;base64," + staticResult.qr_code;
+            const qrSrc = staticResult.qr_code.startsWith("data:") ? staticResult.qr_code : "data:image/png;base64," + staticResult.qr_code;
             document.getElementById("staticQrImage").src = qrSrc;
             document.getElementById("downloadStaticQr").href = qrSrc;
             document.getElementById("staticResult").style.display = 'block';
         }
 
         if (isDynamic && dynamicResult) {
-            const qrSrc = "data:image/png;base64," + dynamicResult.qr_code;
+            const qrSrc = dynamicResult.qr_code.startsWith("data:") ? dynamicResult.qr_code : "data:image/png;base64," + dynamicResult.qr_code;
             document.getElementById("dynamicQrImage").src = qrSrc;
             document.getElementById("downloadDynamicQr").href = qrSrc;
             document.getElementById("dynamicResult").style.display = 'block';
