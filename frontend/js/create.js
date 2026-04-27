@@ -57,12 +57,12 @@ document.getElementById("createLinkForm").addEventListener("submit", async (e) =
     document.getElementById("generateBtn").disabled = true;
 
     try {
-        let staticPromise = null;
-        let dynamicPromise = null;
+        let staticResult = null;
+        let dynamicResult = null;
 
         if (isStatic) {
             const title = document.getElementById("title").value || "Static QR";
-            staticPromise = api.links.generateStatic(originalUrl, title);
+            staticResult = await api.links.generateStatic(originalUrl, title);
         }
 
         if (isDynamic) {
@@ -90,14 +90,9 @@ document.getElementById("createLinkForm").addEventListener("submit", async (e) =
                 payload.ab_test = { url_a: urlA, url_b: urlB, ratio_a: 0.5, ratio_b: 0.5 };
             }
 
-            dynamicPromise = api.links.create(payload).then(linkData => {
-                return api.links.getQR(linkData.id).then(qrData => {
-                    return qrData;
-                });
-            });
+            const linkData = await api.links.create(payload);
+            dynamicResult = await api.links.getQR(linkData.id);
         }
-
-        const [staticResult, dynamicResult] = await Promise.all([staticPromise, dynamicPromise]);
 
         document.getElementById("createLinkForm").parentElement.style.display = 'none';
         document.getElementById("resultSection").style.display = 'block';
