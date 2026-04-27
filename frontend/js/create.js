@@ -56,16 +56,24 @@ document.getElementById("createLinkForm").addEventListener("submit", async (e) =
     document.getElementById("generateBtn").innerText = "Generating...";
     document.getElementById("generateBtn").disabled = true;
 
-    try {
-        let staticResult = null;
-        let dynamicResult = null;
+    let staticResult = null;
+    let dynamicResult = null;
+    const errors = [];
 
-        if (isStatic) {
+    // --- Generate Static QR (independent try/catch) ---
+    if (isStatic) {
+        try {
             const title = document.getElementById("title").value || "Static QR";
             staticResult = await api.links.generateStatic(originalUrl, title);
+        } catch (err) {
+            console.error("Static QR generation failed:", err);
+            errors.push("Static QR: " + err.message);
         }
+    }
 
-        if (isDynamic) {
+    // --- Generate Dynamic QR (independent try/catch) ---
+    if (isDynamic) {
+        try {
             const payload = {
                 title: document.getElementById("title").value,
                 original_url: originalUrl,
@@ -92,27 +100,40 @@ document.getElementById("createLinkForm").addEventListener("submit", async (e) =
 
             const linkData = await api.links.create(payload);
             dynamicResult = await api.links.getQR(linkData.id);
+        } catch (err) {
+            console.error("Dynamic QR generation failed:", err);
+            errors.push("Dynamic QR: " + err.message);
         }
+    }
 
+    // --- Display results ---
+    const hasAnyResult = staticResult || dynamicResult;
+
+    if (hasAnyResult) {
         document.getElementById("createLinkForm").parentElement.style.display = 'none';
         document.getElementById("resultSection").style.display = 'block';
 
-        if (isStatic && staticResult) {
+        if (staticResult) {
             const qrSrc = staticResult.qr_code.startsWith("data:") ? staticResult.qr_code : "data:image/png;base64," + staticResult.qr_code;
             document.getElementById("staticQrImage").src = qrSrc;
             document.getElementById("downloadStaticQr").href = qrSrc;
             document.getElementById("staticResult").style.display = 'block';
         }
 
-        if (isDynamic && dynamicResult) {
+        if (dynamicResult) {
             const qrSrc = dynamicResult.qr_code.startsWith("data:") ? dynamicResult.qr_code : "data:image/png;base64," + dynamicResult.qr_code;
             document.getElementById("dynamicQrImage").src = qrSrc;
             document.getElementById("downloadDynamicQr").href = qrSrc;
             document.getElementById("dynamicResult").style.display = 'block';
         }
 
-    } catch (error) {
-        alert(error.message);
+        // Show partial errors if one succeeded and the other failed
+        if (errors.length > 0) {
+            alert("Some QR codes failed to generate:\n" + errors.join("\n"));
+        }
+    } else {
+        // Both failed
+        alert("Failed to generate QR codes:\n" + errors.join("\n"));
         document.getElementById("generateBtn").innerText = "Generate QR";
         document.getElementById("generateBtn").disabled = false;
     }
